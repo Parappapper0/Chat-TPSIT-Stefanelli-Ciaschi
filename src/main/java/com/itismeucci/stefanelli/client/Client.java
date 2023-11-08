@@ -10,7 +10,6 @@ public class Client {
     private String username;
     private Socket server;
     private DataOutputStream output;
-    private ReceiveThread receiveThread;
 
     public boolean connect(String ip, int port) {
 
@@ -44,16 +43,35 @@ public class Client {
         return true;
     }
 
-    //TODO
-    private boolean send(String user, String message) {
+    public boolean send(String user, String message) {
 
+        message = "1" + user + "-" + message + "\0";
+
+        try {
+
+            output.writeBytes(message);
+
+        } catch (IOException e) {
+            
+            System.out.println("Errore durante l'invio di un messaggio (" + username + ")");
+            e.printStackTrace();
+            return false;
+        }
         return true;
     }
 
-    //TODO
-    private void sendBC(String message) {
+    public void sendBC(String message) {
 
-        System.out.println();
-        
+        message = "0" + message + "\0";
+
+        try {
+
+            output.writeBytes(message);
+
+        } catch (IOException e) {
+            
+            System.out.println("Errore durante l'invio di un messaggio (" + username + ")");
+            e.printStackTrace();
+        }
     }
 }

@@ -5,64 +5,101 @@ import java.net.ServerSocket;
 import java.util.HashMap;
 
 public class Server {
-    
-   private int port;
-   private ServerSocket serverSocket;
-   private HashMap<String, ClientThread> clientConnessi;
 
-   public Server(int port) {
+     static private int port;
+     static private ServerSocket serverSocket;
+     static private HashMap<String, ClientConnectionThread> clientConnessi = new HashMap<String, ClientConnectionThread>();
 
-        this.port = port;
+     public static int getPort() {
 
-        try {
+          return port;
+     }
 
-            serverSocket = new ServerSocket(port);
+     public static void setPort(int port) {
+          Server.port = port;
+     }
 
-        } catch (IOException e) {
-            
-            System.out.println("Errore durante l'avvio del ServerSocket");
-            e.printStackTrace();
-        }
+     public static void openServer() {
 
-        clientConnessi = new HashMap<String, ClientThread>();
-   }
+          try {
 
-   public int getPort() {
+               serverSocket = new ServerSocket(port);
 
-        return port;
-   }
+          } catch (IOException e) {
 
-   //TODO
-   private void close() {
+               System.out.println("Errore durante l'avvio del ServerSocket");
+               e.printStackTrace();
+          }
+     }
 
-   
-   }
+     public static void close() {
 
-   //TODO
-   private void accept() {
+          for (ClientConnectionThread clientThread : clientConnessi.values()) {
 
+               clientThread.close();
+          }
+          
+          try {
 
-   }
+               serverSocket.close();
 
-   //TODO
-   public boolean disconnect(String client) {
+          } catch (IOException e) {
 
-        return true;
-   }
+               System.out.println("Errore durante la chiusura del ServerSocket");
+               e.printStackTrace();
+          }
+     }
 
-   public int getClientAmount() {
+     public static void accept() {
 
-        return clientConnessi.size();
-   }
+          ClientConnectionThread t;
 
-   public HashMap<String, ClientThread> getClientList() {
+          try {
 
-        return (HashMap<String, ClientThread>) clientConnessi.clone();
-   }
+               t = new ClientConnectionThread(serverSocket.accept());
 
-   public ClientThread getClient(String username) {
+          } catch (IOException e) {
 
-        return clientConnessi.get(username);
-   }
+               System.out.println("Errore durante la creazione del ClientThread");
+               e.printStackTrace();
+               return;
+          }
 
+          t.start();
+     }
+
+     public static boolean disconnect(String client) {
+
+          try {
+           
+               clientConnessi.get(client).close();
+
+          } catch (NullPointerException e) {
+               
+               System.out.println("Errore: client non presente");
+               e.printStackTrace();
+               return false;
+          }
+          clientConnessi.remove(client);
+          return true;
+     }
+
+     public static int getClientAmount() {
+
+          return clientConnessi.size();
+     }
+
+     public static HashMap<String, ClientConnectionThread> getClientList() {
+
+          return new HashMap<>(clientConnessi);
+     }
+
+     public static ClientConnectionThread getClient(String username) {
+
+          return clientConnessi.get(username);
+     }
+
+     public static void addClient(String username, ClientConnectionThread clientThread) {
+          clientConnessi.put(username, clientThread);
+     }
 }
