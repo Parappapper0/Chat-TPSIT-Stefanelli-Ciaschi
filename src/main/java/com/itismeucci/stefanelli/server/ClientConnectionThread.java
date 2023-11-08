@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
 
-public class ClientThread extends Thread {
+public class ClientConnectionThread extends Thread {
     
     private String username;
     private Socket clientSocket;
