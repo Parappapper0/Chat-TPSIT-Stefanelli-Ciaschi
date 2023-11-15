@@ -47,6 +47,31 @@ public class ReceiveThread extends Thread {
     @Override
     public void run() {
         
-        
+        Client.username = receive();
+
+        while (true) {
+
+            String input = receive();
+            String user = input.split("-")[0].substring(1);
+            /*
+             * 0username-msg 
+             *  [username] >> msg
+             * 1username-msg
+             *  {username} -> {Tu} >> msg
+             */
+            switch(input.charAt(0)){
+                case '0':
+                    System.out.println("[" + user + "] >> " + input.substring(input.indexOf("-")));
+                    break;
+
+                case '1':
+                    System.out.println("{" + user + "} -> {Tu} >> " + input.substring(input.indexOf("-")));
+                    break;
+
+                default:
+
+                    break;
+            }
+        }
     }
 }

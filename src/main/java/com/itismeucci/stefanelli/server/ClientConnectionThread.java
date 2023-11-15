@@ -16,6 +16,8 @@ public class ClientConnectionThread extends Thread {
     private DataOutputStream output;
     private Scanner scanner;
 
+    private boolean disconnected = false;
+
     public ClientConnectionThread(Socket clientSocket) {
 
         scanner = new Scanner(System.in);
@@ -39,6 +41,7 @@ public class ClientConnectionThread extends Thread {
         try {
 
             clientSocket.close();
+            scanner.close();
 
         } catch (IOException e) {
             
@@ -71,6 +74,11 @@ public class ClientConnectionThread extends Thread {
                     for(String currentUsername : Server.getClientList().keySet())
                         message.concat("\n" + currentUsername);
                     this.write(message);
+                    break;
+                case 3:
+                    Server.disconnect(username);
+                    close();
+                    disconnected = true;
                     break;
                 default:
                     System.out.println("Errore: codice del messaggio non corretto");
@@ -127,15 +135,17 @@ public class ClientConnectionThread extends Thread {
         return false;
     }
 
-    //TODO
     @Override
     public void run() {
 
         do{
-            username = scanner.nextLine();
+            username = read();
         }while(!login());
 
-        
+        write(username + "\0");
 
+        while(!disconnected) { 
+            send(read());
+        }
     }
 }
