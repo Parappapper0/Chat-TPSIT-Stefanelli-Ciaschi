@@ -41,7 +41,7 @@ public class ReceiveThread extends Thread {
             return null;
         }
 
-        return String.valueOf(inputMessage.toArray());
+        return (String)inputMessage.stream().map(e->e.toString()).reduce((acc, e) -> acc  + e).get(); //arabo pt 2
     }
 
     @Override
@@ -69,7 +69,6 @@ public class ReceiveThread extends Thread {
                     break;
 
                 default:
-
                     break;
             }
         }

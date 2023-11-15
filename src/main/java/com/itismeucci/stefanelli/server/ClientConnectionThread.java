@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class ClientConnectionThread extends Thread {
     
@@ -14,13 +13,13 @@ public class ClientConnectionThread extends Thread {
     private Socket clientSocket;
     private BufferedReader input;
     private DataOutputStream output;
-    private Scanner scanner;
+
 
     private boolean disconnected = false;
 
     public ClientConnectionThread(Socket clientSocket) {
 
-        scanner = new Scanner(System.in);
+        
         
         this.clientSocket = clientSocket;
 
@@ -41,7 +40,7 @@ public class ClientConnectionThread extends Thread {
         try {
 
             clientSocket.close();
-            scanner.close();
+            
 
         } catch (IOException e) {
             
@@ -106,7 +105,7 @@ public class ClientConnectionThread extends Thread {
             return null;
         }
 
-        return String.valueOf(inputMessage.toArray());
+        return (String)inputMessage.stream().map(e->e.toString()).reduce((acc, e) -> acc  + e).get(); //arabo
     }
 
     //riceve il messaggio inoltrato da un altro ClientThread e lo invia tramite il socket al proprio Client
@@ -132,6 +131,7 @@ public class ClientConnectionThread extends Thread {
             Server.addClient(username, this);
             return true;
         }
+        write("-\0");
         return false;
     }
 
@@ -143,6 +143,7 @@ public class ClientConnectionThread extends Thread {
         }while(!login());
 
         write(username + "\0");
+        System.out.println("Username inserito: " + username);
 
         while(!disconnected) { 
             send(read());

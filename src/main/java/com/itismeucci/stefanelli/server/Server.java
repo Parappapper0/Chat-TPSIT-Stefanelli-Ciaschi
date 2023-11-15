@@ -57,6 +57,7 @@ public class Server {
           try {
 
                t = new ClientConnectionThread(serverSocket.accept());
+               t.start();
 
           } catch (IOException e) {
 
@@ -65,7 +66,7 @@ public class Server {
                return;
           }
 
-          t.start();
+         
      }
 
      public static boolean disconnect(String client) {

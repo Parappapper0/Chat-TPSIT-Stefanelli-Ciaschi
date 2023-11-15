@@ -4,6 +4,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Scanner;
 
 public class Client {
 
@@ -30,6 +31,7 @@ public class Client {
         } catch (IllegalArgumentException e) {
 
             System.out.println("Errore: la porta non è nel range consentito");
+            return false;
         }
 
         try {
@@ -95,7 +97,6 @@ public class Client {
         try {
 
             output.writeBytes("3\0");
-            //ReceiveThread.close();
 
         } catch (IOException e) {
             
@@ -116,4 +117,6 @@ public class Client {
             e.printStackTrace();
         }
     }
+
+    
 }
