@@ -59,22 +59,26 @@ public class ClientConnectionThread extends Thread {
                     for(String currentUsername : Server.getClientList().keySet())
                         if (currentUsername != username)
                             Server.getClient(currentUsername).write(message);
+                    System.out.println("invio messaggio bc da " + username);
                     break;
                 case '1':  //1trgt-msg\0  -->  1user-msg\0
                     String target = message.split("-")[0].substring(1);
                     message = "1" + username + "-" + message.substring(message.indexOf("-") + 1);
                     Server.getClient(target).write(message);
+                    System.out.println("invio messaggio privato da " + username);
                     break;
                 case '2':
                     message = "1Server-Utenti: (" + Server.getClientAmount() + ")";
                     for(String currentUsername : Server.getClientList().keySet())
                         message.concat("\n" + currentUsername);
                     this.write(message);
+                    System.out.println("invio lista a " + username);
                     break;
                 case '3':
                     Server.disconnect(username);
                     close();
                     disconnected = true;
+                    System.out.println("disconnessione" + username);
                     break;
                 default:
                     System.out.println("Errore: codice del messaggio non corretto");
