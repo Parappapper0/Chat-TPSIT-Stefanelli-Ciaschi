@@ -41,29 +41,24 @@ public class AppClient {
         t = new ReceiveThread(Client.server);
 
         // fai il login
-        do {
+        Utilities.emptyScanner(scanner);
+
+        while (true) {
 
             System.out.print("Inserisci l'username desiderato: ");
 
-            Utilities.emptyScanner(scanner);
+            //Utilities.emptyScanner(scanner);
             String s = scanner.nextLine();
             Client.sendRaw(s + "\0");
 
             Client.username = t.receive();
-        }while (!Client.username.equals("-\0"));
+
+            if (!Client.username.equals("-\0"))
+                break;
+            System.out.println("Username non disponibile");
+        }
 
         t.start();
-
-        /*
-         * 
-         * while (Client.username == null) {
-         * 
-         * scanner.nextLine();
-         * String s = scanner.nextLine();
-         * 
-         * Client.sendRaw(s + "\0");
-         * }
-         */
 
         // inizia a poter scrivere comandi
         while (true) {
@@ -73,7 +68,7 @@ public class AppClient {
                 case "bc":
                 case "broadcast":
                 case "broad":
-                    Client.sendBC(input.substring(input.indexOf(" ")));
+                    Client.sendBC(input.substring(input.indexOf(" ") + 1));
                     break;
                 case "private":
                 case "pvt":
@@ -89,7 +84,7 @@ public class AppClient {
                                 break;
                             }
 
-                    Client.send(input.split(" ")[1], input.substring(pos));
+                    Client.send(input.split(" ")[1], input.substring(pos + 1));
                     break;
                 case "list":
                 case "userlist":

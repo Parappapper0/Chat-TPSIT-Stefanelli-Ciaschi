@@ -52,29 +52,26 @@ public class ClientConnectionThread extends Thread {
     //send inoltra il messaggio ad un altro ClientThread (invia ad un altro client da lato server)
     public void send(String message) {
         
+            switch (message.charAt(0)) {
 
-            short messageCode = Short.valueOf(String.valueOf(message.charAt(0)));
-
-            switch (messageCode) {
-
-                case 0:
-                    message = "0" + username + message.substring(message.indexOf("-") + 1);
+                case '0': //0msg\0  -->  0usr-msg\0
+                    message = "0" + username + "-" + message.substring(1);
                     for(String currentUsername : Server.getClientList().keySet())
                         if (currentUsername != username)
                             Server.getClient(currentUsername).write(message);
                     break;
-                case 1:
+                case '1':  //1trgt-msg\0  -->  1user-msg\0
                     String target = message.split("-")[0].substring(1);
-                    message = "1" + username + message.substring(message.indexOf("-") + 1);
+                    message = "1" + username + "-" + message.substring(message.indexOf("-") + 1);
                     Server.getClient(target).write(message);
                     break;
-                case 2:
+                case '2':
                     message = "1Server-Utenti: (" + Server.getClientAmount() + ")";
                     for(String currentUsername : Server.getClientList().keySet())
                         message.concat("\n" + currentUsername);
                     this.write(message);
                     break;
-                case 3:
+                case '3':
                     Server.disconnect(username);
                     close();
                     disconnected = true;
@@ -140,6 +137,7 @@ public class ClientConnectionThread extends Thread {
 
         do{
             username = read();
+            username = username.substring(0, username.length() - 1);
         }while(!login());
 
         write(username + "\0");

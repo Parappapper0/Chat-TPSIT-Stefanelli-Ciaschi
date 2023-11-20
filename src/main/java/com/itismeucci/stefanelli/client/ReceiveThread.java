@@ -46,8 +46,6 @@ public class ReceiveThread extends Thread {
 
     @Override
     public void run() {
-        
-        Client.username = receive();
 
         while (true) {
 
@@ -61,11 +59,11 @@ public class ReceiveThread extends Thread {
              */
             switch(input.charAt(0)){
                 case '0':
-                    System.out.println("[" + user + "] >> " + input.substring(input.indexOf("-")));
+                    System.out.println("[" + user + "] >> " + input.substring(input.indexOf("-") + 1));
                     break;
 
                 case '1':
-                    System.out.println("{" + user + "} -> {Tu} >> " + input.substring(input.indexOf("-")));
+                    System.out.println("{" + user + "} -> {Tu} >> " + input.substring(input.indexOf("-") + 1));
                     break;
 
                 default:
