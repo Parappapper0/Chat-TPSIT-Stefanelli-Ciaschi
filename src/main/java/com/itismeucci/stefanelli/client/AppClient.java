@@ -75,7 +75,7 @@ public class AppClient {
                 case "pv":
                 case "priv":
                     int pos = -1;
-                    for (int i = 0; 1 < input.length(); i++)
+                    for (int i = 0; i < input.length(); i++)
                         if (input.toCharArray()[i] == ' ')
                             if (pos == -1)
                                 pos = i;
@@ -105,7 +105,8 @@ public class AppClient {
                     t.interrupt();
                     return;
                 default:
-                    break;
+                     System.out.println("Lista kayword:\n\n  1- broadcast\n  2- private\n  3- userlist\n  4- close\n\nes: private ciao!\n(si possono usare forme contratte, come 'priv' o 'pv')");
+                     break;
             }
         }
     }
