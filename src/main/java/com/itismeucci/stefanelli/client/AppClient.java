@@ -75,7 +75,7 @@ public class AppClient {
                 case "pv":
                 case "priv":
                     int pos = -1;
-                    for (int i = 0; i < input.length(); i++)
+                    for (int i = 0; 1 < input.length(); i++)
                         if (input.toCharArray()[i] == ' ')
                             if (pos == -1)
                                 pos = i;
