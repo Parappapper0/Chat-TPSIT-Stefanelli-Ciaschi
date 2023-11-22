@@ -19,22 +19,22 @@ public class AppClient {
         // connettiti al server
         while (true) {
 
-            System.out.print("\nInserisci l'ip del server: ");
+            System.out.print(Utilities.cyan + "\nInserisci l'ip del server: " + Utilities.reset);
             ip = scanner.nextLine();
 
-            System.out.print("Inserisci la porta del server: ");
+            System.out.print(Utilities.cyan + "Inserisci la porta del server: " + Utilities.reset);
             try {
                 port = scanner.nextInt();
             } catch (InputMismatchException e) {
 
-                System.out.println("Errore: la porta non è stata scritta correttamente");
+                System.out.println(Utilities.red + "Errore: la porta non è stata scritta correttamente" + Utilities.reset);
                 Utilities.emptyScanner(scanner);
                 continue;
             }
 
             if (Client.connect(ip, port)) {
 
-                System.out.println("Connessione effettuata con successo");
+                System.out.println(Utilities.green + "Connessione effettuata con successo" + Utilities.reset);
                 break;
             }
         }
@@ -46,7 +46,7 @@ public class AppClient {
 
         while (true) {
 
-            System.out.print("Inserisci l'username desiderato: ");
+            System.out.print(Utilities.cyan + "Inserisci l'username desiderato: " + Utilities.reset);
 
             //Utilities.emptyScanner(scanner);
             String s = scanner.nextLine();
@@ -56,7 +56,7 @@ public class AppClient {
 
             if (!Client.username.equals("-\0"))
                 break;
-            System.out.println("Username non disponibile");
+            System.out.println(Utilities.red + "Username non disponibile" + Utilities.reset);
         }
 
         t.start();
@@ -119,12 +119,12 @@ public class AppClient {
                 case "?":
                 default:
                      System.out.println(
-                        "Lista comandi:\n" +
-                        "\t[broadcast | broad | bc] : invio di un messaggio pubblico\n" +
-                        "\t[private | pvt | priv | pv] : invio di un messaggio ad un solo utente (privato)\n" +
-                        "\t[userlist | users | list | user | ul | online | active] : richiesta della lista degli utenti online\n" +
-                        "\t[exit | close | stop | logout | ex] : uscita dalla chat e dal programma\n" +
-                        "\t[help | ?] : richiesta di questa lista di comandi");
+                        Utilities.cyan + "Lista comandi:\n" +
+                        Utilities.yellow + "\t[broadcast | broad | bc]" + Utilities.reset + " : invio di un messaggio pubblico\n" +
+                        Utilities.yellow + "\t[private | pvt | priv | pv]" + Utilities.reset + " : invio di un messaggio ad un solo utente (privato)\n" +
+                        Utilities.yellow + "\t[userlist | users | list | user | ul | online | active]" + Utilities.reset + " : richiesta della lista degli utenti online\n" +
+                        Utilities.yellow + "\t[exit | close | stop | logout | ex]" + Utilities.reset + " : uscita dalla chat e dal programma\n" +
+                        Utilities.yellow + "\t[help | ?]" + Utilities.reset + " : richiesta di questa lista di comandi");
                      break;
 
                 case "": 

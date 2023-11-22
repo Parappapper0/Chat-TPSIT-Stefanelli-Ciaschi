@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import com.itismeucci.stefanelli.Utilities;
+
 public class Client {
 
     public static String username;
@@ -19,17 +21,17 @@ public class Client {
 
         } catch (UnknownHostException e) {
 
-            System.out.println("Errore durante la connessione al server, host sconosciuto");
+            System.out.println(Utilities.red + "Errore durante la connessione al server, host sconosciuto" + Utilities.reset);
             return false;
 
         } catch (IOException e) {
 
-            System.out.println("Errore durante la connessione al server");
+            System.out.println(Utilities.red + "Errore durante la connessione al server" + Utilities.reset);
             e.printStackTrace();
             return false;
         } catch (IllegalArgumentException e) {
 
-            System.out.println("Errore: la porta non è nel range consentito");
+            System.out.println(Utilities.red + "Errore: la porta non è nel range consentito" + Utilities.reset);
             return false;
         }
 
@@ -39,7 +41,7 @@ public class Client {
 
         } catch (IOException e) {
 
-            System.out.println("Errore durante l'inizializzazione del canale di Output del Client");
+            System.out.println(Utilities.red + "Errore durante l'inizializzazione del canale di Output del Client" + Utilities.reset);
             e.printStackTrace();
         }
 
@@ -56,7 +58,7 @@ public class Client {
 
         } catch (IOException e) {
             
-            System.out.println("Errore durante l'invio di un messaggio (" + username + ")");
+            System.out.println(Utilities.red + "Errore durante l'invio di un messaggio (" + username + ")" + Utilities.reset);
             e.printStackTrace();
             return false;
         }
@@ -73,7 +75,7 @@ public class Client {
 
         } catch (IOException e) {
             
-            System.out.println("Errore durante l'invio di un messaggio (" + username + ")");
+            System.out.println(Utilities.red + "Errore durante l'invio di un messaggio (" + username + ")" + Utilities.reset);
             e.printStackTrace();
         }
     }
@@ -86,7 +88,7 @@ public class Client {
 
         } catch (IOException e) {
             
-            System.out.println("Errore durante la richiesta della lista (" + username + ")");
+            System.out.println(Utilities.red + "Errore durante la richiesta della lista (" + username + ")" + Utilities.reset);
             e.printStackTrace();
         }
     }
@@ -99,7 +101,7 @@ public class Client {
 
         } catch (IOException e) {
             
-            System.out.println("Errore durante la richiesta della lista (" + username + ")");
+            System.out.println(Utilities.red + "Errore durante la richiesta della lista (" + username + ")" + Utilities.reset);
             e.printStackTrace();
         }
     }
@@ -112,7 +114,7 @@ public class Client {
 
         } catch (IOException e) {
             
-            System.out.println("Errore durante l'invio di un messaggio (sendRaw)");
+            System.out.println(Utilities.red + "Errore durante l'invio di un messaggio (sendRaw)" + Utilities.reset);
             e.printStackTrace();
         }
     }

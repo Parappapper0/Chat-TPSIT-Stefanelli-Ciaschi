@@ -7,6 +7,8 @@ import java.io.InputStreamReader;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import com.itismeucci.stefanelli.Utilities;
+
 public class ClientConnectionThread extends Thread {
     
     private String username;
@@ -30,7 +32,7 @@ public class ClientConnectionThread extends Thread {
 
         } catch (IOException e) {
             
-            System.out.println("Errore durante la creazione delle stream I/O");
+            System.out.println(Utilities.red + "Errore durante la creazione delle stream I/O");
             e.printStackTrace();
         }
     }
@@ -44,7 +46,7 @@ public class ClientConnectionThread extends Thread {
 
         } catch (IOException e) {
             
-            System.out.println("Errore durante la chiusura del Socket Client");
+            System.out.println(Utilities.red + "Errore durante la chiusura del Socket Client");
             e.printStackTrace();
         }
     }
@@ -82,7 +84,7 @@ public class ClientConnectionThread extends Thread {
                     System.out.println("disconnessione" + username);
                     break;
                 default:
-                    System.out.println("Errore: codice del messaggio non corretto");
+                    System.out.println(Utilities.red + "Errore: codice del messaggio non corretto");
                     break;
             }
     }
@@ -103,7 +105,7 @@ public class ClientConnectionThread extends Thread {
         } catch (IOException e) {
             
             e.printStackTrace();
-            System.out.println("Errore durante la lettura di un messaggio (" + username + ")");
+            System.out.println(Utilities.red + "Errore durante la lettura di un messaggio (" + username + ")");
             return null;
         }
 
@@ -120,7 +122,7 @@ public class ClientConnectionThread extends Thread {
 
         } catch (IOException e) {
 
-            System.out.println("Errore durante la scrittura di un messaggio (" + username + ")");
+            System.out.println(Utilities.red + "Errore durante la scrittura di un messaggio (" + username + ")");
             e.printStackTrace();
         }
     }
@@ -146,7 +148,7 @@ public class ClientConnectionThread extends Thread {
         }while(!login());
 
         write(username + "\0");
-        System.out.println("Username inserito: " + username);
+        System.out.println(Utilities.green + "Username inserito: " + Utilities.reset +  username);
 
         while(!disconnected) { 
             send(read());
