@@ -41,7 +41,7 @@ public class ReceiveThread extends Thread {
             return null;
         }
 
-        return (String)inputMessage.stream().map(e->e.toString()).reduce((acc, e) -> acc  + e).get(); //arabo pt 2
+        return (String)inputMessage.stream().map(e->e.toString()).reduce((acc, e) -> acc  + e).get(); //ArrayList<Character> --> String
     }
 
     @Override

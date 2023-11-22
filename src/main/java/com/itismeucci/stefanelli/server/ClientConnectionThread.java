@@ -70,7 +70,8 @@ public class ClientConnectionThread extends Thread {
                 case '2':
                     message = "1Server-Utenti: (" + Server.getClientAmount() + ")";
                     for(String currentUsername : Server.getClientList().keySet())
-                        message.concat("\n" + currentUsername);
+                        message = message.concat("\n\t\t" + currentUsername);
+                    message += '\0';
                     this.write(message);
                     System.out.println("invio lista a " + username);
                     break;
@@ -106,7 +107,7 @@ public class ClientConnectionThread extends Thread {
             return null;
         }
 
-        return (String)inputMessage.stream().map(e->e.toString()).reduce((acc, e) -> acc  + e).get(); //arabo
+        return (String)inputMessage.stream().map(e->e.toString()).reduce((acc, e) -> acc  + e).get(); //ArrayList<Character> --> String
     }
 
     //riceve il messaggio inoltrato da un altro ClientThread e lo invia tramite il socket al proprio Client

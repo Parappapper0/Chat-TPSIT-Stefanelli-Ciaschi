@@ -12,6 +12,7 @@ public class AppClient {
         String input;
         String ip;
         int port;
+        String textColor = Utilities.white;
 
         ReceiveThread t;
 
@@ -65,11 +66,13 @@ public class AppClient {
             input = scanner.nextLine();
 
             switch (input.split(" ")[0]) {
+
                 case "bc":
                 case "broadcast":
                 case "broad":
                     Client.sendBC(input.substring(input.indexOf(" ") + 1));
                     break;
+
                 case "private":
                 case "pvt":
                 case "pv":
@@ -86,6 +89,7 @@ public class AppClient {
 
                     Client.send(input.split(" ")[1], input.substring(pos + 1));
                     break;
+
                 case "list":
                 case "userlist":
                 case "ul":
@@ -95,6 +99,7 @@ public class AppClient {
                 case "active":
                     Client.requestList();
                     break;
+
                 case "close":
                 case "exit":
                 case "ex":
@@ -104,9 +109,26 @@ public class AppClient {
                     scanner.close();
                     t.interrupt();
                     return;
+
+                case "color":
+                case "textcolor":
+                    
+                    break;
+                
+                case "help":
+                case "?":
                 default:
-                     System.out.println("Lista kayword:\n\n  1- broadcast\n  2- private\n  3- userlist\n  4- close\n\nes: private ciao!\n(si possono usare forme contratte, come 'priv' o 'pv')");
+                     System.out.println(
+                        "Lista comandi:\n" +
+                        "\t[broadcast | broad | bc] : invio di un messaggio pubblico\n" +
+                        "\t[private | pvt | priv | pv] : invio di un messaggio ad un solo utente (privato)\n" +
+                        "\t[userlist | users | list | user | ul | online | active] : richiesta della lista degli utenti online\n" +
+                        "\t[exit | close | stop | logout | ex] : uscita dalla chat e dal programma\n" +
+                        "\t[help | ?] : richiesta di questa lista di comandi");
                      break;
+
+                case "": 
+                    break;
             }
         }
     }
