@@ -63,26 +63,36 @@ public class ClientConnectionThread extends Thread {
                             Server.getClient(currentUsername).write(message);
                     System.out.println(Utilities.cyan + "invio messaggio bc da " + Utilities.yellow + username + Utilities.reset + ": " + message);
                     break;
+
                 case '1':  //1trgt-msg\0  -->  1user-msg\0
                     String target = message.split("-")[0].substring(1);
+                    
+                    if (Server.getClient(target) == null) {
+
+                        this.write("1Server-Utente non trovato");
+                        break;
+                    }
                     message = "1" + username + "-" + message.substring(message.indexOf("-") + 1);
                     Server.getClient(target).write(message);
                     System.out.println(Utilities.cyan + "invio messaggio privato da " + Utilities.yellow + username + Utilities.reset + ": " + message);
                     break;
+
                 case '2':
-                    message = "1Server-Utenti: (" + Server.getClientAmount() + ")";
+                    message = "1Server-" + Utilities.yellow + "Utenti: (" + Server.getClientAmount() + ")";
                     for(String currentUsername : Server.getClientList().keySet())
-                        message = message.concat("\n\t\t" + currentUsername);
-                    message += '\0';
+                        message = message.concat("\n\t\t- " + currentUsername);
+                    message = message + Utilities.reset + '\0';
                     this.write(message);
                     System.out.println(Utilities.cyan + "invio lista a "  + Utilities.yellow + username + Utilities.reset);
                     break;
+
                 case '3':
                     Server.disconnect(username);
                     close();
                     disconnected = true;
-                    System.out.println(Utilities.cyan + "disconnessione"  + Utilities.yellow + username + Utilities.reset);
+                    System.out.println(Utilities.cyan + "disconnessione "  + Utilities.yellow + username + Utilities.reset);
                     break;
+                    
                 default:
                     System.out.println(Utilities.red + "Errore: codice del messaggio non corretto" + Utilities.reset);
                     break;

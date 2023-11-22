@@ -50,6 +50,23 @@ public class AppClient {
 
             //Utilities.emptyScanner(scanner);
             String s = scanner.nextLine();
+
+            if (s.isBlank()) {
+
+                System.out.println(Utilities.red + "Inserisci qualcosa" + Utilities.reset);
+                continue;
+            }
+            if (s.indexOf('-') != -1) {
+
+                System.out.println(Utilities.red + "Il - non è permesso negli username" + Utilities.reset);
+                continue;
+            }
+            if (s.indexOf(' ') != -1) {
+
+                System.out.println(Utilities.red + "Gli spazi non sono permessi negli username" + Utilities.reset);
+                continue;
+            }
+
             Client.sendRaw(s + "\0");
 
             Client.username = t.receive();
@@ -70,6 +87,11 @@ public class AppClient {
                 case "bc":
                 case "broadcast":
                 case "broad":
+                    if (input.length() - input.replace(" ", "").length() < 1) {
+
+                        System.out.println(Utilities.red + "Quantità di argomenti del comando insufficiente" + Utilities.reset);
+                        break;
+                    }
                     Client.sendBC(textColor + input.substring(input.indexOf(" ") + 1) + Utilities.reset);
                     break;
 
@@ -77,6 +99,13 @@ public class AppClient {
                 case "pvt":
                 case "pv":
                 case "priv":
+
+                    if (input.length() - input.replace(" ", "").length() < 2) {
+
+                        System.out.println(Utilities.red + "Quantità di argomenti del comando insufficiente" + Utilities.reset);
+                        break;
+                    }
+
                     int pos = -1;
                     for (int i = 0; 1 < input.length(); i++)
                         if (input.toCharArray()[i] == ' ')
@@ -108,28 +137,32 @@ public class AppClient {
                     Client.logout();
                     scanner.close();
                     t.interrupt();
+                    System.out.println(Utilities.yellow + "Disconnessione effettuata" + Utilities.reset);
                     return;
 
                 case "color":
                 case "textcolor":
                     String clr = Utilities.colorFromString(input.substring(input.indexOf(" ") + 1));
                     if (clr == "err")
-                        System.out.println(Utilities.yellow + "Il colore inserito non esiste");
+                        System.out.println(Utilities.red + "Il colore inserito non esiste" + Utilities.reset);
                     else textColor = clr;
                     break;
                 
                 case "help":
                 case "?":
-                default:
                      System.out.println(
                         Utilities.cyan + "Lista comandi:\n" +
-                        Utilities.yellow + "\t[broadcast | broad | bc]" + Utilities.reset + " : invio di un messaggio pubblico\n" +
-                        Utilities.yellow + "\t[private | pvt | priv | pv]" + Utilities.reset + " : invio di un messaggio ad un solo utente (privato)\n" +
-                        Utilities.yellow + "\t[userlist | users | list | user | ul | online | active]" + Utilities.reset + " : richiesta della lista degli utenti online\n" +
-                        Utilities.yellow + "\t[exit | close | stop | logout | ex]" + Utilities.reset + " : uscita dalla chat e dal programma\n" +
-                        Utilities.yellow + "\t[help | ?]" + Utilities.reset + " : richiesta di questa lista di comandi\n" +
-                        Utilities.yellow + "\r[color | textcolor]" + Utilities.reset + " : cambio del colore dei messaggi");
+                        Utilities.yellow + "\t{broadcast | broad | bc} <message>" + Utilities.reset + " : invio di un messaggio pubblico\n" +
+                        Utilities.yellow + "\t{private | pvt | priv | pv} <target> <message>" + Utilities.reset + " : invio di un messaggio ad un solo utente (privato)\n" +
+                        Utilities.yellow + "\t{userlist | users | list | user | ul | online | active}" + Utilities.reset + " : richiesta della lista degli utenti online\n" +
+                        Utilities.yellow + "\t{exit | close | stop | logout | ex}" + Utilities.reset + " : uscita dalla chat e dal programma\n" +
+                        Utilities.yellow + "\t{help | ?}" + Utilities.reset + " : richiesta di questa lista di comandi\n" +
+                        Utilities.yellow + "\t{color | textcolor} <color>" + Utilities.reset + " : cambio del colore dei messaggi");
                      break;
+
+                default:
+                    System.out.println(Utilities.red + "Comando non riconosciuto, usa help o ? per vedere una lista di comandi" + Utilities.reset);
+                    break;
 
                 case "": 
                     break;
