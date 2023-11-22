@@ -5,6 +5,8 @@ import java.io.InputStreamReader;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import com.itismeucci.stefanelli.Utilities;
+
 public class ReceiveThread extends Thread {
     
     private BufferedReader input;
@@ -59,11 +61,11 @@ public class ReceiveThread extends Thread {
              */
             switch(input.charAt(0)){
                 case '0':
-                    System.out.println("[" + user + "] >> " + input.substring(input.indexOf("-") + 1));
+                    System.out.println(Utilities.blue + "[" + user + "] >> " + input.substring(input.indexOf("-") + 1));
                     break;
 
                 case '1':
-                    System.out.println("{" + user + "} -> {Tu} >> " + input.substring(input.indexOf("-") + 1));
+                    System.out.println(Utilities.blue + "{" + user + "} -> {Tu} >> " + input.substring(input.indexOf("-") + 1));
                     break;
 
                 default:
