@@ -9,6 +9,53 @@ public class Utilities {
         scanner.nextLine();
     }
 
+    public static String colorFromString(String color) {
+
+        switch (color.toLowerCase()) {
+            
+            case "red":
+            case "r":
+                return red;
+            
+            case "green":
+            case "g":
+            case "gr":
+                return green;
+            
+            case "yellow":
+            case "gold":
+            case "y":
+                return yellow;
+
+            case "blue":
+            case "b":
+            case "bl":
+                return blue;
+            
+            case "purple":
+            case "p":
+            case "prpl":
+            case "pur":
+                return purple;
+
+            case "cyan":
+            case "c":
+            case "cy":
+                return cyan;
+
+            case "white":
+            case "w":
+            case "wh":
+            case "default":
+            case "def":
+            case "d":
+                return white;
+        
+            default:
+                return "err";
+        }
+    }
+
     public static final String reset = "\u001B[0m";
     public static final String black = "\u001B[30m";
     public static final String red = "\u001B[31m";

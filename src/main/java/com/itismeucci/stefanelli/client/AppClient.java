@@ -70,7 +70,7 @@ public class AppClient {
                 case "bc":
                 case "broadcast":
                 case "broad":
-                    Client.sendBC(input.substring(input.indexOf(" ") + 1));
+                    Client.sendBC(textColor + input.substring(input.indexOf(" ") + 1) + Utilities.reset);
                     break;
 
                 case "private":
@@ -87,7 +87,7 @@ public class AppClient {
                                 break;
                             }
 
-                    Client.send(input.split(" ")[1], input.substring(pos + 1));
+                    Client.send(input.split(" ")[1], textColor + input.substring(pos + 1) + Utilities.reset);
                     break;
 
                 case "list":
@@ -112,7 +112,10 @@ public class AppClient {
 
                 case "color":
                 case "textcolor":
-                    
+                    String clr = Utilities.colorFromString(input.substring(input.indexOf(" ") + 1));
+                    if (clr == "err")
+                        System.out.println(Utilities.yellow + "Il colore inserito non esiste");
+                    else textColor = clr;
                     break;
                 
                 case "help":
@@ -124,7 +127,8 @@ public class AppClient {
                         Utilities.yellow + "\t[private | pvt | priv | pv]" + Utilities.reset + " : invio di un messaggio ad un solo utente (privato)\n" +
                         Utilities.yellow + "\t[userlist | users | list | user | ul | online | active]" + Utilities.reset + " : richiesta della lista degli utenti online\n" +
                         Utilities.yellow + "\t[exit | close | stop | logout | ex]" + Utilities.reset + " : uscita dalla chat e dal programma\n" +
-                        Utilities.yellow + "\t[help | ?]" + Utilities.reset + " : richiesta di questa lista di comandi");
+                        Utilities.yellow + "\t[help | ?]" + Utilities.reset + " : richiesta di questa lista di comandi\n" +
+                        Utilities.yellow + "\r[color | textcolor]" + Utilities.reset + " : cambio del colore dei messaggi");
                      break;
 
                 case "": 
