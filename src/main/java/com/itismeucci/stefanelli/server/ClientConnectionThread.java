@@ -32,7 +32,7 @@ public class ClientConnectionThread extends Thread {
 
         } catch (IOException e) {
             
-            System.out.println(Utilities.red + "Errore durante la creazione delle stream I/O");
+            System.out.println(Utilities.red + "Errore durante la creazione delle stream I/O" + Utilities.reset);
             e.printStackTrace();
         }
     }
@@ -46,7 +46,7 @@ public class ClientConnectionThread extends Thread {
 
         } catch (IOException e) {
             
-            System.out.println(Utilities.red + "Errore durante la chiusura del Socket Client");
+            System.out.println(Utilities.red + "Errore durante la chiusura del Socket Client" + Utilities.reset);
             e.printStackTrace();
         }
     }
@@ -61,13 +61,13 @@ public class ClientConnectionThread extends Thread {
                     for(String currentUsername : Server.getClientList().keySet())
                         if (currentUsername != username)
                             Server.getClient(currentUsername).write(message);
-                    System.out.println("invio messaggio bc da " + username);
+                    System.out.println(Utilities.cyan + "invio messaggio bc da " + Utilities.yellow + username + Utilities.reset + ": " + message);
                     break;
                 case '1':  //1trgt-msg\0  -->  1user-msg\0
                     String target = message.split("-")[0].substring(1);
                     message = "1" + username + "-" + message.substring(message.indexOf("-") + 1);
                     Server.getClient(target).write(message);
-                    System.out.println("invio messaggio privato da " + username);
+                    System.out.println(Utilities.cyan + "invio messaggio privato da " + Utilities.yellow + username + Utilities.reset + ": " + message);
                     break;
                 case '2':
                     message = "1Server-Utenti: (" + Server.getClientAmount() + ")";
@@ -75,16 +75,16 @@ public class ClientConnectionThread extends Thread {
                         message = message.concat("\n\t\t" + currentUsername);
                     message += '\0';
                     this.write(message);
-                    System.out.println("invio lista a " + username);
+                    System.out.println(Utilities.cyan + "invio lista a "  + Utilities.yellow + username + Utilities.reset);
                     break;
                 case '3':
                     Server.disconnect(username);
                     close();
                     disconnected = true;
-                    System.out.println("disconnessione" + username);
+                    System.out.println(Utilities.cyan + "disconnessione"  + Utilities.yellow + username + Utilities.reset);
                     break;
                 default:
-                    System.out.println(Utilities.red + "Errore: codice del messaggio non corretto");
+                    System.out.println(Utilities.red + "Errore: codice del messaggio non corretto" + Utilities.reset);
                     break;
             }
     }
@@ -105,7 +105,7 @@ public class ClientConnectionThread extends Thread {
         } catch (IOException e) {
             
             e.printStackTrace();
-            System.out.println(Utilities.red + "Errore durante la lettura di un messaggio (" + username + ")");
+            System.out.println(Utilities.red + "Errore durante la lettura di un messaggio da"  + Utilities.yellow + username + Utilities.reset);
             return null;
         }
 
@@ -122,7 +122,7 @@ public class ClientConnectionThread extends Thread {
 
         } catch (IOException e) {
 
-            System.out.println(Utilities.red + "Errore durante la scrittura di un messaggio (" + username + ")");
+            System.out.println(Utilities.red + "Errore durante la scrittura di un messaggio da"  + Utilities.yellow + username + Utilities.reset);
             e.printStackTrace();
         }
     }
@@ -148,7 +148,7 @@ public class ClientConnectionThread extends Thread {
         }while(!login());
 
         write(username + "\0");
-        System.out.println(Utilities.green + "Username inserito: " + Utilities.reset +  username);
+        System.out.println(Utilities.cyan+ "Username inserito: " + Utilities.yellow + username + Utilities.reset);
 
         while(!disconnected) { 
             send(read());
